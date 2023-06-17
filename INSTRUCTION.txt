@@ -1,0 +1,36 @@
+python sr.py -p val -c config/sr_sr3_16_128.json -lin_schedule False
+python sr.py -p train -c config/sr_sr3_16_128.json -lin_schedule False
+python sr.py -p train -c config/sr_sr3_16_128.json -lin_schedule True
+python infer.py -c config/sr_sr3_16_128.json
+python data/prepare_data.py  --path dataset/128 --out Out --size 16,128
+python data/prepare_data.py  --path dataset/celeba_hq_256 --out Celebout --size 16,128
+
+tensorboard --logdir=tb_logger
+tensorboard --logdir_spec=diff:diff,cos:cos
+du -sh *
+ssh zihe@dsmlp-login.ucsd.edu
+launch-scipy-ml.sh -g 1
+launch.sh -p low -g 1 -m 32 -v 2080ti -b
+kubectl zihe-8006
+kubesh get pods
+cat ~/.ssh/id_rsa.pub | ssh zihe@dsmlp-login.ucsd.edu "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys"
+rm -r private/sr3/experiments/*
+
+
+Orig 36epoch: Validation # PSNR: 2.2977e+01 Validation # SSIM: 6.7901e-01
+
+12epoch+linear warm: PSNR: 2.0991e+01   Validation # SSIM: 6.7790e-01
+
+500steps: psnr: 2.2435e+01, ssim:6.5636e-01
+
+Original+ linear warm:  2.2552e+01, ssim:6.7030e-01
+
+simple+vlb loss:  1.8559e+01, ssim:6.1439e-01   (10 epoch)
+
+Cosine PSNR: 2.3146e+01 Validation # SSIM: 6.8469e-01   full 2.31,0.694
+diff: psnr: 2.3062e+01, ssim:6.795
+diff full: 2.3277e+01, ssim:6.9283e-0/ 2.3245e+01, ssim:6.9497e-01,
+diff+att: 2.2779e+01, ssim:6.7383e-0
+diff+interp: 22.9, 0.684 53.84
+diff+att_2: 2.3018e+01, ssim:6.8708e-01 54.31
+ diff+att_8 :2.31, ssim:6.9 51.75
