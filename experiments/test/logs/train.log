@@ -1,0 +1,100 @@
+23-05-03 17:20:40.118 - INFO:   name: sr_ffhq
+  phase: val
+  gpu_ids: [0]
+  path:[
+    log: experiments\sr_ffhq_230503_172040\logs
+    tb_logger: experiments\sr_ffhq_230503_172040\tb_logger
+    results: experiments\sr_ffhq_230503_172040\results
+    checkpoint: experiments\sr_ffhq_230503_172040\checkpoint
+    resume_state: experiments/orig/checkpoint/I640000_E37
+    experiments_root: experiments\sr_ffhq_230503_172040
+  ]
+  datasets:[
+    train:[
+      name: FFHQ
+      mode: HR
+      dataroot: dataset/ffhq_16_128
+      datatype: img
+      l_resolution: 16
+      r_resolution: 128
+      batch_size: 4
+      num_workers: 8
+      use_shuffle: True
+      data_len: -1
+    ]
+    val:[
+      name: CelebaHQ
+      mode: LRHR
+      dataroot: dataset/celebahq_16_128
+      datatype: img
+      l_resolution: 16
+      r_resolution: 128
+      data_len: 50
+    ]
+  ]
+  model:[
+    which_model_G: sr3
+    finetune_norm: False
+    unet:[
+      in_channel: 6
+      out_channel: 3
+      inner_channel: 64
+      channel_multiplier: [1, 2, 4, 8, 8]
+      attn_res: [16]
+      res_blocks: 2
+      dropout: 0.2
+    ]
+    beta_schedule:[
+      train:[
+        schedule: linear
+        n_timestep: 2000
+        linear_start: 1e-06
+        linear_end: 0.01
+      ]
+      val:[
+        schedule: linear
+        n_timestep: 2000
+        linear_start: 1e-06
+        linear_end: 0.01
+      ]
+    ]
+    diffusion:[
+      image_size: 128
+      channels: 3
+      conditional: True
+    ]
+  ]
+  train:[
+    n_iter: 640000
+    val_freq: 40000.0
+    save_checkpoint_freq: 40000.0
+    print_freq: 200
+    optimizer:[
+      type: adam
+      lr: 0.0001
+    ]
+    ema_scheduler:[
+      step_start_ema: 5000
+      update_ema_every: 1
+      ema_decay: 0.9999
+    ]
+  ]
+  wandb:[
+    project: sr_ffhq
+  ]
+  distributed: False
+  log_wandb_ckpt: False
+  log_eval: False
+  enable_wandb: False
+
+23-05-03 17:20:40.125 - INFO: Dataset [LRHRDataset - CelebaHQ] is created.
+23-05-03 17:20:40.126 - INFO: Initial Dataset Finished
+23-05-03 17:20:40.613 - INFO: Loading pretrained model for G [experiments/orig/checkpoint/I640000_E37] ...
+23-05-03 17:20:40.773 - INFO: Network G structure: GaussianDiffusion, with parameters: 97,807,491
+23-05-03 17:20:40.773 - INFO: Model [DDPM] is created.
+23-05-03 17:20:40.774 - INFO: Initial Model Finished
+23-05-03 17:20:40.774 - INFO: Resuming training from epoch: 0, iter: 0.
+23-05-03 17:20:40.775 - INFO: Begin Model Evaluation.
+23-05-03 17:28:10.729 - INFO: # Validation # PSNR: 2.2552e+01
+23-05-03 17:28:10.729 - INFO: # Validation # SSIM: 6.7030e-01
+23-05-03 17:28:10.730 - INFO: <epoch:  0, iter:       0> psnr: 2.2552e+01, ssim:6.7030e-01,FID:0.0000e+00
