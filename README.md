@@ -29,3 +29,4 @@ tensorboard --logdir=tb_logger
 
 ## Results
  ![result](disp/att8/att8.jpg)
+  ![result](experiments/table.jpg)
