@@ -4,6 +4,7 @@ Super resolution with  Denoising Diffusion Probabilistic Models based on Image S
 The method is based on conditional diffusion model. During inference, low resolution image is given as well as noise to generate high resolution with reverse diffusion model.
 Previous method SR3 has disadvantages of slow sampling rate, computationally intensive and weak supervision from low resolution. The propose method aim to solve these issues with improved noise/learning rate schedule and modified reconstruction objective.
  ![Architecture](archit.jpg)
+ ## Methods
 ## Code instructions
 Different settings in config folder include training and hyperparameter. 
 Main code of training and evaluation
