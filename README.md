@@ -5,6 +5,13 @@ The method is based on conditional diffusion model. During inference, low resolu
 Previous method SR3 has disadvantages of slow sampling rate, computationally intensive and weak supervision from low resolution. The propose method aim to solve these issues with improved noise/learning rate schedule and modified reconstruction objective.
  ![Architecture](archit.jpg)
  ## Methods
+ ### Faster sampling rate by modifying noise schedule and learning rate scheduler
+ ### Implicit prediction of residual image
+ Change the training of the network to predict residual for faster convergence (details in Report.pdf)
+ ### Consistency enforcement by multi stage fusing
+ fuse low-resolution images to multiple stages in UNet to enhance the consistency score. 
+## Results
+Shown in the graph the proposed method has the better performance comparing to baseline (SR3)
 ## Code instructions
 Different settings in config folder include training and hyperparameter. 
 Main code of training and evaluation
