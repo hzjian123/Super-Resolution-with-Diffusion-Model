@@ -10,8 +10,6 @@ Previous method SR3 has disadvantages of slow sampling rate, computationally int
  Change the training of the network to predict residual for faster convergence (details in Report.pdf)
  ### Consistency enforcement by multi stage fusing
  fuse low-resolution images to multiple stages in UNet to enhance the consistency score. 
-## Results
-Shown in the graph the proposed method has the better performance comparing to baseline (SR3)
 ## Code instructions
 Different settings in config folder include training and hyperparameter. 
 Main code of training and evaluation
@@ -36,5 +34,6 @@ tensorboard --logdir=tb_logger
 ```
 
 ## Results
+Shown in the graph the proposed method has the better performance comparing to baseline (SR3)
  ![result](disp/att8/att8.jpg)
   ![result](experiments/table.jpg)
